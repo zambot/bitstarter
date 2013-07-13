@@ -58,10 +58,13 @@ var checkHtmlFile = function(htmlfile, checksfile) {
 
 var cheerioHtmlUrl = function(url) {
     return cheerio.load(restler.get(url).on("complete", function(result) {
-      var checkJson = checkHtmlFile(cheerio.load(result), program.checks);
-      var outJson = JSON.stringify(checkJson, null, 4);
-      console.log(outJson);
+      pretty_print(checkHtmlFile(cheerio.load(result), program.checks));
     }));
+}
+
+var pretty_print = function(obj) {
+      var outJson = JSON.stringify(obj, null, 4);
+      console.log(outJson);
 }
 
 var clone = function(fn) {
@@ -82,9 +85,7 @@ if(require.main == module) {
 
     } else {
       cheerio_file = cheerioHtmlFile(program.file);
-      var checkJson = checkHtmlFile(cheerio_file, program.checks);
-      var outJson = JSON.stringify(checkJson, null, 4);
-      console.log(outJson);
+      pretty_print(checkHtmlFile(cheerio_file, program.checks));
     }
 } else {
     exports.checkHtmlFile = checkHtmlFile;
